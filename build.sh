@@ -31,7 +31,6 @@ cp /etc/resolv.conf rootfs/etc
 cat << ! > rootfs/etc/apk/repositories
 http://dl-cdn.alpinelinux.org/alpine/latest-stable/community
 http://dl-cdn.alpinelinux.org/alpine/latest-stable/main
-http://dl-cdn.alpinelinux.org/alpine/latest-stable/releases
 http://dl-cdn.alpinelinux.org/alpine/edge/community
 http://dl-cdn.alpinelinux.org/alpine/edge/testing
 !
