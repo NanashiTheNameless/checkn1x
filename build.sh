@@ -14,6 +14,9 @@ in_section && /file:/ {print $2; exit}
 ROOTFS="https://dl-cdn.alpinelinux.org/alpine/latest-stable/releases/x86_64/$ROOTFSLATEST"
 CRBINARY="https://assets.checkra.in/downloads/linux/cli/x86_64/dac9968939ea6e6bfbdedeb41d7e2579c4711dc2c5083f91dced66ca397dc51d/checkra1n"
 
+# Update splash
+sed -i "s/Welcome to checkn1x\./Welcome to checkn1x $VERSION : https:\/\/github.com\/NanashiTheNameless\/checkn1x (original by asineth0)\./" scripts/checkn1x_welcome
+
 # clean up previous attempts
 umount -v work/rootfs/dev >/dev/null 2>&1
 umount -v work/rootfs/sys >/dev/null 2>&1
@@ -80,7 +83,6 @@ ln -sv sbin/init rootfs/init
 ln -sv ../../etc/terminfo rootfs/usr/share/terminfo # fix ncurses
 
 # boot config
-sed -i 's/Welcome to checkn1x\./Welcome to checkn1x $VERSION : https:\/\/github.com\/NanashiTheNameless\/checkn1x (original by asineth0)/' scripts/checkn1x_welcome
 cp -av rootfs/boot/vmlinuz-lts iso/boot/vmlinuz
 cat << ! > iso/boot/grub/grub.cfg
 insmod all_video
