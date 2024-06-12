@@ -86,7 +86,7 @@ ln -sv ../../etc/terminfo rootfs/usr/share/terminfo # fix ncurses
 cp -av rootfs/boot/vmlinuz-lts iso/boot/vmlinuz
 cat << ! > iso/boot/grub/grub.cfg
 insmod all_video
-echo 'checkn1x $VERSION : https://github.com/NanashiTheNameless/checkn1x (original https://github.com/asineth0/checkn1x)'
+echo 'checkn1x $VERSION : https://github.com/NanashiTheNameless/checkn1x (original by asineth0)'
 linux /boot/vmlinuz quiet loglevel=3
 initrd /boot/initramfs.xz
 boot
