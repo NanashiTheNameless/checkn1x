@@ -1,0 +1,47 @@
+name: Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: install deps.
+        run: |
+          sudo apt update
+          sudo apt upgrade
+          sudo apt install mtools
+          sudo apt install grub
+          sudo apt install curl
+
+      - name: Run Build Script.
+        run: ./build.sh
+
+      # Uploads artifacts
+      - name: "Upload Artifacts"
+        uses: actions/upload-artifact@v4.3.3
+        with:
+          name: Checkn1x-${{github.run_id}}
+          path: "work"
+
+      # Uploads artifacts
+      - name: Tar and Upload a Build Artifact
+        uses: eviden-actions/upload-artifact@v2.0.0
+        with:
+          compression-level: 9
+          name: tar-Checkn1x-${{github.run_id}}
+          path: "work"
+
+      - name: Upload Artifact to Release
+        uses: softprops/action-gh-release@master
+        with:
+          prerelease: false
+          fail_on_unmatched_files: false
+          tag_name: Checkn1x-Release-${{github.run_id}}
+          name: Checkn1x-Release-${{github.run_id}}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          files: work/*.iso

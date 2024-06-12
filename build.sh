@@ -1,10 +1,17 @@
 #!/bin/bash
 #
 # checkn1x build script
-# https://asineth.me/checkn1x
+# https://github.com/NanashiTheNameless/checkn1x (original https://github.com/asineth0/checkn1x)
 #
-VERSION="1.1.7"
-ROOTFS="https://dl-cdn.alpinelinux.org/alpine/v3.13/releases/x86_64/alpine-minirootfs-3.13.5-x86_64.tar.gz"
+
+VERSION="1.1.8-NamelessNanashi"
+ROOTFSLATEST="$(curl -s "https://dl-cdn.alpinelinux.org/alpine/latest-stable/releases/x86_64/latest-releases.yaml" | awk '
+/^-/ {in_section=0}
+/title: "Mini root filesystem"/ {in_section=1}
+in_section && /file:/ {print $2; exit}
+'
+)"
+ROOTFS="https://dl-cdn.alpinelinux.org/alpine/latest-stable/releases/x86_64/$ROOTFSLATEST"
 CRBINARY="https://assets.checkra.in/downloads/linux/cli/x86_64/dac9968939ea6e6bfbdedeb41d7e2579c4711dc2c5083f91dced66ca397dc51d/checkra1n"
 
 # clean up previous attempts
@@ -22,7 +29,9 @@ mount -vt sysfs sysfs rootfs/sys
 mount -vt proc proc rootfs/proc
 cp /etc/resolv.conf rootfs/etc
 cat << ! > rootfs/etc/apk/repositories
-http://dl-cdn.alpinelinux.org/alpine/v3.12/main
+http://dl-cdn.alpinelinux.org/alpine/latest-stable/community
+http://dl-cdn.alpinelinux.org/alpine/latest-stable/main
+http://dl-cdn.alpinelinux.org/alpine/latest-stable/releases
 http://dl-cdn.alpinelinux.org/alpine/edge/community
 http://dl-cdn.alpinelinux.org/alpine/edge/testing
 !
@@ -75,7 +84,7 @@ ln -sv ../../etc/terminfo rootfs/usr/share/terminfo # fix ncurses
 cp -av rootfs/boot/vmlinuz-lts iso/boot/vmlinuz
 cat << ! > iso/boot/grub/grub.cfg
 insmod all_video
-echo 'checkn1x $VERSION : https://asineth.me'
+echo 'checkn1x $VERSION : https://github.com/NanashiTheNameless/checkn1x (original https://github.com/asineth0/checkn1x)'
 linux /boot/vmlinuz quiet loglevel=3
 initrd /boot/initramfs.xz
 boot
