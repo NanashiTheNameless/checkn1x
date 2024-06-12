@@ -103,4 +103,4 @@ popd
 grub-mkrescue -o "checkn1x-$VERSION.iso" iso --compress=xz
 
 # fix permissions for "work" once script is done
-sudo chmod -R 777 work & sudo chmod 777 work/**.iso
+sudo chmod -R 777 ./work & sudo chmod 777 ./work/**.iso
