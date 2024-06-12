@@ -14,7 +14,7 @@ jobs:
         run: |
           sudo apt update --yes
           sudo apt install mtools --yes
-          sudo apt install grub --yes
+          sudo apt install grub2-common --yes
           sudo apt install curl --yes
 
       - name: Run Build Script.
