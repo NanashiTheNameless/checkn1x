@@ -12,11 +12,10 @@ jobs:
 
       - name: install deps.
         run: |
-          sudo apt update
-          sudo apt upgrade
-          sudo apt install mtools
-          sudo apt install grub
-          sudo apt install curl
+          sudo apt update --yes
+          sudo apt install mtools --yes
+          sudo apt install grub --yes
+          sudo apt install curl --yes
 
       - name: Run Build Script.
         run: ./build.sh
