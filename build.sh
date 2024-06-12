@@ -4,7 +4,7 @@
 # https://github.com/NanashiTheNameless/checkn1x (original https://github.com/asineth0/checkn1x)
 #
 
-VERSION="1.1.8-NamelessNanashi"
+VERSION="1.1.9-NamelessNanashi"
 ROOTFSLATEST="$(curl -s "https://dl-cdn.alpinelinux.org/alpine/latest-stable/releases/x86_64/latest-releases.yaml" | awk '
 /^-/ {in_section=0}
 /title: "Mini root filesystem"/ {in_section=1}
@@ -80,6 +80,7 @@ ln -sv sbin/init rootfs/init
 ln -sv ../../etc/terminfo rootfs/usr/share/terminfo # fix ncurses
 
 # boot config
+sed -i 's/Welcome to checkn1x\./Welcome to checkn1x $VERSION : https:\/\/github.com\/NanashiTheNameless\/checkn1x (original by asineth0)/' scripts/checkn1x_welcome
 cp -av rootfs/boot/vmlinuz-lts iso/boot/vmlinuz
 cat << ! > iso/boot/grub/grub.cfg
 insmod all_video
@@ -100,3 +101,6 @@ popd
 
 # iso creation
 grub-mkrescue -o "checkn1x-$VERSION.iso" iso --compress=xz
+
+# fix permissions for "work" once script is done
+sudo chmod -R 777 work & sudo chmod 777 work/**.iso
